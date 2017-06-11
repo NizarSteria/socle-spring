@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.batch.item.ItemProcessor;
+import tn.demo.model.Person;
 
 public class PersonItemProcessor implements ItemProcessor<Person, Person> {
 

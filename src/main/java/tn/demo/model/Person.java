@@ -1,4 +1,5 @@
-package tn.demo;
+package tn.demo.model;
+
 
 public class Person {
 

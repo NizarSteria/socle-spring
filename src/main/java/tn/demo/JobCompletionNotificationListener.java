@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import tn.demo.model.Person;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
@@ -21,6 +22,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
 	private final JdbcTemplate jdbcTemplate;
 
+	private static final String SELECT_QUERY = "SELECT first_name, last_name FROM people";
 	@Autowired
 	public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -31,7 +33,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 		if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
 			log.info("!!! JOB FINISHED! Time to verify the results");
 
-			List<Person> results = jdbcTemplate.query("SELECT first_name, last_name FROM people", new RowMapper<Person>() {
+			List<Person> results = jdbcTemplate.query(SELECT_QUERY, new RowMapper<Person>() {
 				@Override
 				public Person mapRow(ResultSet rs, int row) throws SQLException {
 					return new Person(rs.getString(1), rs.getString(2));
